@@ -9,7 +9,7 @@ def train(args,parser):
     # Select the source domain and target domain based on domains:
     # For example:  source_domain = 0   ->  source domain: eth
     #               target_domain = 1   -> target domain: hotel
-    source_domain = 6
+    source_domain = 0
     target_domain = 1
     train_set = [source_domain, target_domain]
     #-----create a storage folder-----
