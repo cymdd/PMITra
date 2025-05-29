@@ -6,7 +6,8 @@
 ## Train
 The default dataset combination is ETH-eth as the source domain and ETH-hotel as the target domain. The data cache and model will be saved to./checkpoints/eth2hotel<br><br>
 The source domain and target domain datasets can be manually set according to the comments in train.py and test.py
-``` git clone https://github.com/cymdd/PMITra.git
-    cd PMITra
-    python train.py
-  
+```
+git clone https://github.com/cymdd/PMITra.git
+cd PMITra
+python train.py
+```  
