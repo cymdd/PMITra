@@ -38,7 +38,7 @@ class Main():
             if os.path.isfile(self.args.model_save_path):
                 print('Loading checkpoint')
                 #cuda:1 The gpu number stored in the model parameter file
-                checkpoint = torch.load(self.args.model_save_path,map_location={'cuda:1': 'cuda:'+str(self.args.gpu)})
+                checkpoint = torch.load(self.args.model_save_path,map_location={'cuda:0': 'cuda:'+str(self.args.gpu)})
                 model_epoch = checkpoint['epoch']
                 self.epoch = int(model_epoch)+1
                 self.net = checkpoint['net']
@@ -57,7 +57,7 @@ class Main():
         print('Testing begin')
         model_filepath = os.path.join(self.args.model_filepath,"best_model.pth")
         if os.path.exists(model_filepath):
-            model_state_dict = torch.load(model_filepath,map_location={'cuda:1': 'cuda:'+str(self.args.gpu)})
+            model_state_dict = torch.load(model_filepath,map_location={'cuda:0': 'cuda:'+str(self.args.gpu)})
             self.net = model_state_dict
             self.net.args = self.args
             test_error, test_final_error, first_erro_test = self.test_epoch()
@@ -149,7 +149,7 @@ class Main():
             predict_loss,pattern_loss, full_pre_tra = self.net.forward(inputs_fw_0, inputs_fw_1, all_labels, all_abs, batch,iftest=False)
             if predict_loss == 0 or pattern_loss == 0:
                 continue
-            ballance_param = 0.4
+            ballance_param = self.args.ballance_param
             totalLoss = ballance_param  * predict_loss + (1-ballance_param) * pattern_loss
             print(f'predict_loss = {predict_loss} | pattern_loss = {pattern_loss}')
             loss_epoch = loss_epoch + totalLoss.item()
