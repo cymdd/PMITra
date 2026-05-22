@@ -5,15 +5,10 @@ from utils import load_arg,save_arg
 import torch
 
 def test(args,parser):
-    domains = ['eth', 'hotel', 'zara01', 'zara02', 'students001', 'students003', 'uni_examples', 'zara03']
-    # Select the source domain and target domain based on domains:
-    # For example:  source_domain = 0   ->  source domain: eth
-    #               target_domain = 1   -> target domain: hotel
-    source_domain = 0
-    target_domain = 1
-    train_set = [source_domain, target_domain]
-    #-----check the model parameter file-----
-    model_dirName = f'{domains[train_set[0]]}2{domains[train_set[1]]}'
+    source_domain = args.source_domain
+    target_domain = args.target_domain
+    #-----create a storage folder-----
+    model_dirName = f'{source_domain}2{target_domain}'
     args.model_filepath = os.path.join(args.checkpoint_dir, model_dirName)
     if not os.path.exists(args.model_filepath):
         print("The model parameter file does not exist！")
@@ -22,7 +17,7 @@ def test(args,parser):
     if not load_arg(args,parser):
         save_arg(args)
     args = load_arg(args,parser)
-    Dataloader = Data_loader(args, train_set, phase="test")
+    Dataloader = Data_loader(args, phase="test")
     main = Main(args, Dataloader)
     main.playtest()
 
