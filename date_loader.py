@@ -4,7 +4,7 @@ import numpy as np
 import random
 
 class Data_loader():
-    def __init__(self, args, train_set, phase="train"):
+    def __init__(self, args, phase="train"):
         self.miss=0
         self.args=args
         self.num_tra = 0
@@ -16,10 +16,9 @@ class Data_loader():
                               './data/ucy/univ/students001','data/ucy/univ/students003',
                               './data/ucy/univ/uni_examples','./data/ucy/zara/zara03']
             domains = ['eth','hotel','zara01','zara02','students001','students003' ,'uni_examples','zara03']
-            # Data directory where the pre-processed pickle file resides
             self.data_dir = './data'
             skip=[6,10,10,10,10,10,10,10]
-
+            train_set = [domains.index(args.source_domain), domains.index(args.target_domain)]
         if phase == "train":
             self.train_dir=[self.data_dirs[x] for x in train_set]
             self.trainskip=[skip[x] for x in train_set]
@@ -51,8 +50,8 @@ class Data_loader():
             self.test_dir = [self.data_dirs[train_set[1]]]
             self.testskip=[skip[train_set[1]]]
 
-            self.test_data_file = os.path.join(self.args.model_filepath, f"test_trajectories_{domains[train_set[1]]}.cpkl")
-            self.test_batch_cache = os.path.join(self.args.model_filepath, f"test_batch_cache_{domains[train_set[1]]}.cpkl")
+            self.test_data_file = os.path.join(self.args.model_filepath, f"test_trajectories_{args.target_domain}.cpkl")
+            self.test_batch_cache = os.path.join(self.args.model_filepath, f"test_batch_cache_{args.target_domain}.cpkl")
 
             print("Creating pre-processed data from raw data.")
             self.traject_preprocess('test')
